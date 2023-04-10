@@ -1,0 +1,2 @@
+установочка 
+ npm install express body-parser nodemon sqlite3 --save
