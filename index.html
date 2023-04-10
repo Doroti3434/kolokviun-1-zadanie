@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="addForm">
+      <h2>Добавить нового студента</h2>
+      <label>
+        ФИО:
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Возраст:
+        <input type="text" name="age" required>
+      </label>
+      <label>
+        Факультет:
+        <input type="text" name="faculty" required>
+      </label>
+      <label>
+        Курс:
+        <input type="text" name="course" required>
+      </label>
+      <label>
+        Группа:
+        <input type="text" name="group" required>
+      </label>
+      <input type="submit" value="Добавить запись">
+    </form>
+    <h2>Записи</h2>
+    <table id="recordTable">
+      <thead>
+        <tr>
+          <th>ФИО</th>
+          <th>Возраст</th>
+          <th>Факультет</th>
+          <th>Курс</th>
+          <th>Группа</th>
+        </tr>
+      </thead>
+      <tbody>
+       
+      </tbody>
+    </table>
+    <script src="data.json"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+const express = require('express');
+const fs = require('fs');
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+app.use(express.static('public')); // Подключение статических файлов
+
+// Чтение данных из файла
+function readData() {
+  const rawData = fs.readFileSync('data.json');
+  return JSON.parse(rawData);
+}
+
+// Запись данных в файл
+function writeData(data) {
+  const newData = JSON.stringify(data, null, 2);
+  fs.writeFileSync('data.json', newData);
+}
+
+// Создание записи
+app.post('/api/create', (req, res) => {
+  const data = readData();
+  const newRecord = req.body;
+  newRecord.id = Date.now(); // Генерация уникального идентификатора
+  data.push(newRecord);
+  writeData(data);
+  res.send(newRecord);
+});
+
+// Получение всех записей
+app.get('/api/read', (req, res) => {
+  const data = readData();
+  res.send(data);
+});
+
+// Редактирование записи
+app.put('/api/update/:id', (req, res) => {
+  const data = readData();
+  const recordIndex = data.findIndex(record => record.id === +req.params.id); // Поиск записи по идентификатору
+  if (recordIndex === -1) {
+    res.status(404).send('Record not found');
+  } else {
+    const updatedRecord = req.body;
+    updatedRecord.id = +req.params.id;
+    data[recordIndex] = updatedRecord;
+    writeData(data);
+    res.send(updatedRecord);
+  }
+});
+
+// Удаление записи
+app.delete('/api/delete/:id', (req, res) => {
+  const data = readData();
+  const recordIndex = data.findIndex(record => record.id === +req.params.id); // Поиск записи по идентификатору
+  if (recordIndex === -1) {
+    res.status(404).send('Record not found');
+  } else {
+    data.splice(recordIndex, 1);
+    writeData(data);
+    res.send('Record deleted');
+  }
+});
+
+// Запуск сервера
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
